@@ -186,8 +186,8 @@ assign m_axis_tid    = ID_ENABLE   ? m_axis_tid_reg   : {ID_WIDTH{1'b0}};
 assign m_axis_tdest  = DEST_ENABLE ? m_axis_tdest_reg : {DEST_WIDTH{1'b0}};
 assign m_axis_tuser  = USER_ENABLE ? m_axis_tuser_reg : {USER_WIDTH{1'b0}};
 
-// enable ready input next cycle if temp register is empty and output register will be available
-assign m_axis_tready_int_early = !temp_m_axis_tvalid_reg && (!m_axis_tvalid_reg || m_axis_tready);
+// enable ready input next cycle if output is ready or if both output registers are empty
+assign m_axis_tready_int_early = m_axis_tready || (!temp_m_axis_tvalid_reg && !m_axis_tvalid_reg);
 
 always @* begin
     // transfer sink ready state to source
